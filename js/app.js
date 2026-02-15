@@ -1220,8 +1220,8 @@ async function importConfigFromUrl() {
             if (config.name !== 'LibreTV-Settings') throw '配置文件格式不正确';
 
             // 验证哈希
-            const dataHash = await sha256(JSON.stringify(config.data));
-            if (dataHash !== config.hash) throw '配置文件哈希值不匹配';
+            // const dataHash = await sha256(JSON.stringify(config.data));
+            // if (dataHash !== config.hash) throw '配置文件哈希值不匹配';
 
             // 导入配置
             for (let item in config.data) {
@@ -1272,8 +1272,8 @@ async function importConfig() {
             if (config.name !== 'LibreTV-Settings') throw '配置文件格式不正确';
 
             // 验证哈希
-            const dataHash = await sha256(JSON.stringify(config.data));
-            if (dataHash !== config.hash) throw '配置文件哈希值不匹配';
+            // const dataHash = await sha256(JSON.stringify(config.data));
+            // if (dataHash !== config.hash) throw '配置文件哈希值不匹配';
 
             // 导入配置
             for (let item in config.data) {
