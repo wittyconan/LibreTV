@@ -15,22 +15,11 @@ jobs:
     if: ${{ github.event.repository.fork }}
 
     steps:
-      # Step 1: run a standard checkout action
-      - name: Checkout target repo
-        uses: actions/checkout@v4
-
-      # Step 2: run the sync action
-      - name: Sync upstream changes
-        id: sync
-        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
-        with:
-          upstream_sync_repo: LibreSpark/LibreTV
-          upstream_sync_branch: main
-          target_sync_branch: backup-2025
-          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Sync check
-        if: failure()
+      - name: Reset backup-2025 to upstream main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[Error] Due to a change in the workflow file of the upstream repository, GitHub has automatically suspended the scheduled automatic update. You need to manually sync your fork."
-          exit 1
+          SHA=$(gh api repos/LibreSpark/LibreTV/commits/main --jq .sha)
+          echo "Upstream main is $SHA"
+          gh api -X PATCH repos/wittyconan/LibreTV/git/refs/heads/backup-2025 -f sha="$SHA" -f force=true
+          echo "backup-2025 now points at upstream main"
